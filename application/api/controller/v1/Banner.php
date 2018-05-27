@@ -11,6 +11,7 @@ namespace app\api\controller\v1;
 
 use app\api\validate\IDMustBePostiveInt;
 use app\api\model\Banner as BannerModel;
+use app\lib\exception\MissException;
 use think\Exception;
 
 class Banner
@@ -26,16 +27,9 @@ class Banner
         (new IDMustBePostiveInt())->goCheck();
         //静态方法是通过类名直接访问，实例方法是通过类的实例访问
         //能够拿起来就用的，就用静态实现，比如工具类https://www.cnblogs.com/-mrl/p/6485616.html
-        try{
-
-            $banner = BannerModel::getBannerById($id);
-        }catch(Exception $ex)
-        {
-            $err = [
-                'error_code'=>10001,
-                'mag' => $ex->getMessage()
-            ];
-            return json($err,400);
+        $banner = BannerModel::getBannerById($id);
+        if(!$banner){
+            throw new MissException();
         }
         return $banner;
 
