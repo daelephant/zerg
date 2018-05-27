@@ -8,7 +8,7 @@
 
 namespace app\sample\controller;
 
-use think\Request;
+//use think\Request;
 class Test
 {
     public function hello()

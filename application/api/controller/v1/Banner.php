@@ -10,8 +10,8 @@ namespace app\api\controller\v1;
 
 
 use app\api\validate\IDMustBePostiveInt;
-use app\api\validate\TestValidate;
-use think\Validate;
+use app\api\model\Banner as BannerModel;
+use think\Exception;
 
 class Banner
 {
@@ -21,9 +21,23 @@ class Banner
      * @http GET
      * @id Banner的id号
      */
+
     public function getBanner($id){
         (new IDMustBePostiveInt())->goCheck();
-        $c = 1;
+        //静态方法是通过类名直接访问，实例方法是通过类的实例访问
+        //能够拿起来就用的，就用静态实现，比如工具类https://www.cnblogs.com/-mrl/p/6485616.html
+        try{
+
+            $banner = BannerModel::getBannerById($id);
+        }catch(Exception $ex)
+        {
+            $err = [
+                'error_code'=>10001,
+                'mag' => $ex->getMessage()
+            ];
+            return json($err,400);
+        }
+        return $banner;
 
         //if($id....)
         //独立验证用法(太直白：1、校验流程很长，每个控制器下都要有这样的校验过程2、代码复用性不高  如果需要从get、post等获取变量，再去判断，代码会更长)
