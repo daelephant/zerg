@@ -8,11 +8,11 @@
 
 namespace app\lib\exception;
 
-use think\Config;
+use Exception;
 use think\exception\Handle;
 use think\Log;
 use think\Request;
-use Exception;
+
 /*
  * 重写Handle的render方法，实现自定义异常消息
  */

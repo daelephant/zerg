@@ -29,9 +29,9 @@ class Banner
         //能够拿起来就用的，就用静态实现，比如工具类https://www.cnblogs.com/-mrl/p/6485616.html
         $banner = BannerModel::getBannerById($id);
         if(!$banner){
-            throw new Exception();
+            throw new MissException();
         }
-        return $banner;
+        return json($banner);
 
         //if($id....)
         //独立验证用法(太直白：1、校验流程很长，每个控制器下都要有这样的校验过程2、代码复用性不高  如果需要从get、post等获取变量，再去判断，代码会更长)

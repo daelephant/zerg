@@ -17,4 +17,5 @@ use think\Route;
 //Route::post('hello/:id','sample/Test/hello');
 
 //固定的三段式  模块名/控制器名/操作方法名  有自定义目录用.表示
-Route::get('banner/:id','api/v1.Banner/getBanner');
+//api/v1表示这是api接口，v1版本
+Route::get('api/v1/banner/:id','api/v1.Banner/getBanner');
