@@ -8,10 +8,14 @@
 
 namespace app\lib\exception;
 
+use think\Config;
 use think\exception\Handle;
 use think\Log;
 use think\Request;
-
+use Exception;
+/*
+ * 重写Handle的render方法，实现自定义异常消息
+ */
 class ExceptionHandler extends Handle
 {
     private $code;
@@ -21,7 +25,7 @@ class ExceptionHandler extends Handle
     //基类\Exception的对象
     //Exception是所有异常的基类
     //$e是Exception（异常） new出来的对象，包含Exception类中的所有属性方法
-    public function render(\Exception $e)
+    public function render(Exception $e)
     {
         //判断一个对象是否是某个类的实例 instanceof
         if($e instanceof BaseException){
@@ -31,10 +35,19 @@ class ExceptionHandler extends Handle
             $this->errorCode = $e->errorCode;
         }
         else{
-            $this->code = 500;
-            $this->msg = '服务端内部错误，不想告诉你';
-            $this->errorCode = 999;
-            $this->recordErrorLog($e);
+            //Config::get('app_debug');
+            if(config('app_debug'))
+            {
+               return parent::render($e);
+            }
+            else
+            {
+
+                $this->code = 500;
+                $this->msg = '服务端内部错误，不想告诉你';
+                $this->errorCode = 999;
+                $this->recordErrorLog($e);
+            }
         }
         $request = Request::instance();
         $result = [

@@ -29,7 +29,7 @@ class Banner
         //能够拿起来就用的，就用静态实现，比如工具类https://www.cnblogs.com/-mrl/p/6485616.html
         $banner = BannerModel::getBannerById($id);
         if(!$banner){
-            throw new MissException();
+            throw new Exception();
         }
         return $banner;
 
