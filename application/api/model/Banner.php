@@ -11,8 +11,9 @@ namespace app\api\model;
 
 use think\Db;
 use think\Exception;
+use think\Model;
 
-class Banner
+class Banner extends Model
 {
     //具体的业务实现：根据Banner id获取相关的业务。
     public static function getBannerById($id)

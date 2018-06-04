@@ -27,7 +27,10 @@ class Banner
         (new IDMustBePostiveInt())->goCheck();
         //静态方法是通过类名直接访问，实例方法是通过类的实例访问
         //能够拿起来就用的，就用静态实现，比如工具类https://www.cnblogs.com/-mrl/p/6485616.html
-        $banner = BannerModel::getBannerById($id);
+        //$banner = BannerModel::getBannerById($id);
+
+        //使用模型
+        $banner = BannerModel::get($id);
         if(!$banner){
             throw new MissException();
         }
