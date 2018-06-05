@@ -30,7 +30,9 @@ class Banner
         //$banner = BannerModel::getBannerById($id);
 
         //使用模型
-        $banner = BannerModel::get($id);
+        //$banner = BannerModel::with(['items','items.img'])->find($id);
+        //使用封装后的查询：
+        $banner = BannerModel::getBannerById($id);
         if(!$banner){
             throw new MissException();
         }
