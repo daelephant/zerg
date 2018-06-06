@@ -15,6 +15,7 @@ use think\Model;
 
 class Banner extends Model
 {
+    protected $hidden = ['delete_time','update_time'];
     //这里items不是普通的函数，而是关联：
     public function items()
     {
