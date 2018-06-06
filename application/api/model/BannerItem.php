@@ -4,7 +4,7 @@ namespace app\api\model;
 
 use think\Model;
 
-class BannerItem extends Model
+class BannerItem extends BaseModel
 {
     //隐藏客户端不需要的字段
     protected $hidden = ['id','img_id','banner_id','delete_time','update_time'];
