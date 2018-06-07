@@ -38,4 +38,17 @@ class BaseValidate extends Validate
         }
     }
 
+    //自定义验证规则（验证正整数）
+    protected function isPositiveInteger($value,$rule='',$data='',$field='')
+    {
+        //验证正整数
+        if(is_numeric($value) && is_int($value + 0) && ($value + 0) > 0){
+            return true;
+        }
+        else{
+            return false;
+            //return $field.'必须是正整数';
+        }
+    }
+
 }

@@ -18,4 +18,7 @@ use think\Route;
 
 //固定的三段式  模块名/控制器名/操作方法名  有自定义目录用.表示
 //api/v1表示这是api接口，v1版本
-Route::get('api/v1/banner/:id','api/v1.Banner/getBanner');
+Route::get('api/:version/banner/:id','api/:version.Banner/getBanner');
+
+//查询通常定义为get
+Route::get('api/:version/theme','api/:version.Theme/getSimpleList');
