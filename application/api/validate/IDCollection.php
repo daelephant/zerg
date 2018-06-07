@@ -20,6 +20,7 @@ class IDCollection extends BaseValidate
 
     //ids = id1,id2,id3
     protected function checkIDs($value){
+        $value = str_replace('，',',',$value);//处理传入汉语逗号
         $values = explode(',',$value);
         if(empty($values)){
             return false;
