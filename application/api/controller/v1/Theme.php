@@ -4,6 +4,7 @@ namespace app\api\controller\v1;
 
 use app\api\validate\IDCollection;
 use app\api\model\Theme as ThemeModel;
+use app\api\validate\IDMustBePostiveInt;
 use app\lib\exception\ThemeException;
 
 class Theme
@@ -22,7 +23,11 @@ class Theme
         return $result;
     }
 
+    /**
+     * @url /themr/:id
+     *
+     */
     public function getComplexOne($id){
-        return 'success';
+        (new IDMustBePostiveInt())->goCheck();
     }
 }
