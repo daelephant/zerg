@@ -27,6 +27,7 @@ class Theme extends BaseModel
         return $this->belongsToMany('Product','theme_product','product_id','theme_id');
     }
 
+    //上面先定义需要的关联关系，然后在查询里面使用这样的关联关系：
     public static function getThemeWithProducts($id)
     {
         $theme = self::with('products,topicImg,headImg')->find($id);

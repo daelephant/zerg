@@ -29,5 +29,10 @@ class Theme
      */
     public function getComplexOne($id){
         (new IDMustBePostiveInt())->goCheck();
+        $theme = ThemeModel::getThemeWithProducts($id);
+        if(!$theme){
+            throw new ThemeException();
+        }
+        return $theme;
     }
 }
