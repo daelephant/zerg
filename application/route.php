@@ -24,3 +24,5 @@ Route::get('api/:version/banner/:id','api/:version.Banner/getBanner');
 Route::get('api/:version/theme','api/:version.Theme/getSimpleList');
 //和上面获取主题的列表的简要信息 做区分，这里传入id信息表示获取某个具体theme的详细信息
 Route::get('api/:version/theme/:id','api/:version.Theme/getComplexOne');
+
+Route::get('api/:version/product/recent','api/:version.Product/getRecent');
