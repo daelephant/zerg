@@ -10,6 +10,7 @@
 namespace app\api\service;
 
 
+use app\lib\exception\TokenException;
 use app\lib\exception\WeChatException;
 use think\Exception;
 use app\api\model\User as UserModel;
@@ -63,9 +64,29 @@ class UserToken extends Token
             $uid = $this->newUser($openid);
         }
         $cachedValue = $this->prepareCachedValue($wxResult,$uid);
+        $token = $this->saveToCache($cachedValue);
+        return $token;
     }
     private function saveToCache($cacheValue){
-        $key = generateToken();
+        $key = self::generateToken();
+        //把数组转化成字符串json_encode成功则返回 JSON 编码的 string 或者在失败时返回 FALSE
+        //把数组转化成字符串implode ( string $glue , array $pieces )用 glue 将一维数组的值连接为一个字符串。
+        $value = json_encode($cacheValue);
+        //令牌的过期时间可以巧妙地转换成缓存的过期时间
+        $expire_in = config('setting.token_expire_in');
+
+        //这里使用TP5自带缓存：封装，默认文件缓存可配置memcache。Redis  速度快一点点，支持存储一个对象，
+        //我们使用文件是把数组对象存储成字符串，这样redis可以直接读取对象的，但是目前文件存储就是读取字符串
+        //自己需要把字符串反序列化程数组，这是redis优势。单纯的存储键值对的话redis的优势不是很明显，但是用到redis数据结构对象的时候优势会大一些
+        //用文件系统、memcache、redis、数据库都是载体的不同，最终的结果和实现的功能是一样的
+        $request = cache($key,$value,$expire_in);
+        if(!$request){
+            throw new TokenException([
+                'msg' => '服务器缓存异常',
+                'errorCode' => 10005
+            ]);
+        }
+        return $key;
     }
 
     private function prepareCachedValue($wxResult,$uid){
