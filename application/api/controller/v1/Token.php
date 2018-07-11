@@ -18,7 +18,7 @@ class Token
     {
         (new TokenGet())->goCheck();
         $ut = new UserToken($code);
-        $token = $ut->get();
+        $token = $ut->get($code);
         //用框架自动返回json格式：
         //return $token;
         return [

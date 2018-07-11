@@ -73,7 +73,7 @@ class Address extends Controller
         }
         else{
             //更新
-            $user->address->save($dataArray);
+            $user->address()->save($dataArray);
         }
         //标准的Rest风格，返回修改后的资源
         //return $user;
