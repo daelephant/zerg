@@ -93,12 +93,10 @@ class UserToken extends Token
     private function prepareCachedValue($wxResult,$uid){
         $cachedValue = $wxResult;
         $cachedValue['uid'] = $uid;
-        //类枚举
-        //scope = 16 代表App用户的权限数值
+        //scope=16 代表App用户的权限数值
         $cachedValue['scope'] = ScopeEnum::User;
-
-        //scope=32代表CMS(管理员)用户的权限数值
-        //$cacheValue['scope'] = 32;
+        //scope=32 代表CMS(管理员)用户的权限数值
+        //$cachedValue['scope'] = 32;
 
         return $cachedValue;
     }

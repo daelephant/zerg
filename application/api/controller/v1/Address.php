@@ -12,11 +12,45 @@ namespace app\api\controller\v1;
 use app\api\validate\AddressNew;
 use app\api\service\Token as TokenService;
 use app\api\model\User as UserModel;
+use app\lib\enum\ScopeEnum;
+use app\lib\exception\ForbiddenException;
 use app\lib\exception\SuccessMessage;
+use app\lib\exception\TokenException;
 use app\lib\exception\UserException;
+use think\Controller;
 
-class Address
+class Address extends Controller
 {
+    protected $beforeActionList = [
+        'checkPrimaryScope' => ['only' => 'createOrUpdateAddress']
+    ];
+    //先验证初级的权限作用域
+    protected function checkPrimaryScope(){
+        $scope = TokenService::getCurrentTokenVar('scope');
+        if ($scope){
+
+            if ($scope >= ScopeEnum::User){
+                return true;
+            }
+            else{
+                throw new ForbiddenException();
+            }
+        }else
+        {
+            throw new TokenException();
+        }
+    }
+
+    //protected $beforeActionList = [
+    //    'first' => ['only' => 'second']
+    //];
+    //protected function first(){
+    //    echo 'first';
+    //}
+    ////API接口
+    //public function second(){
+    //    echo 'second';
+    //}
     public function createOrUpdateAddress()
     {
         $validate = new AddressNew();
@@ -39,7 +73,7 @@ class Address
         }
         else{
             //更新
-            $user->address->save($dataArray);
+            $user->address()->save($dataArray);
         }
         //标准的Rest风格，返回修改后的资源
         //return $user;

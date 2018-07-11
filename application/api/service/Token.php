@@ -38,7 +38,7 @@ class Token
             throw new TokenException();
         }else{
             if(!is_array($vars)){
-                json_decode($vars,true);
+                $vars = json_decode($vars,true);
             }
             if(array_key_exists($key,$vars)){
                 return $vars[$key];

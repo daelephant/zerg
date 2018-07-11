@@ -1,9 +1,9 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: yin
- * Date: 2018/7/11
- * Time: 7:09
+ * User: cyx
+ * Date: 2018-07-11
+ * Time: 10:32
  */
 
 namespace app\lib\enum;
