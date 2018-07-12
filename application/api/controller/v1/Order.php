@@ -40,5 +40,9 @@ class Order extends BaseController
     //}
     public function placeOrder(){
         (new OrderPlace())->goCheck();
+        //要获取数组参数，专门写法
+        $products = input('post.products/a');
+        $uid = TokenService::getCurrentUid();
+        //在service里面建立一个模型来处理复杂的具体业务逻辑
     }
 }
