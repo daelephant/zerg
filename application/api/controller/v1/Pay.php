@@ -11,6 +11,7 @@ namespace app\api\controller\v1;
 
 use app\api\controller\BaseController;
 use app\api\validate\IDMustBePostiveInt;
+use app\api\service\Pay as PayService;
 
 class Pay extends BaseController
 {
@@ -21,5 +22,7 @@ class Pay extends BaseController
     public function getPreOrder($id='')
     {
         (new IDMustBePostiveInt())->goCheck();
+        $pay = new PayService($id);
+        $pay->pay();
     }
 }
