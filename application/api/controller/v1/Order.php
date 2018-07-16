@@ -16,6 +16,7 @@ use app\lib\exception\ForbiddenException;
 use app\lib\exception\TokenException;
 use think\Controller;
 use app\api\service\Token as TokenService;
+use app\api\service\Order as OrderService;
 
 class Order extends BaseController
 {
@@ -44,5 +45,9 @@ class Order extends BaseController
         $products = input('post.products/a');
         $uid = TokenService::getCurrentUid();
         //在service里面建立一个模型来处理复杂的具体业务逻辑
+
+        $order = new OrderService();
+        $status = $order->place($uid,$products);
+        return $status;
     }
 }

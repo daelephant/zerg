@@ -14,6 +14,7 @@ use app\api\model\Product;
 use app\api\model\UserAddress;
 use app\lib\exception\OrderException;
 use app\lib\exception\UserException;
+use think\Db;
 use think\Exception;
 
 class Order
@@ -41,10 +42,14 @@ class Order
 
         //开始创建订单
         $orderSnap = $this->snapOrder($status);
+        $order = $this->createOrder($orderSnap);
+        $order['pass'] = true;
+        return $order;
     }
 
     private function createOrder($snap)
     {
+        Db::startTrans();
         try{
             //对于比较复杂的，特别是对于数据库的操作，最好加入异常处理try catch
             //捕获通用异常
@@ -69,6 +74,7 @@ class Order
             }
             $orderProduct = new OrderProduct();
             $orderProduct->saveAll($this->oProducts);//保存一组数据
+            Db::commit();
             return [
                 'order_no' => $orderNo,
                 'order_id' => $orderID,
@@ -78,6 +84,7 @@ class Order
         }
         catch (Exception $ex)
         {
+            Db::rollback();
             throw $ex;
         }
     }
@@ -126,6 +133,18 @@ class Order
             ]);
         }
         return $userAddress->toArray();
+    }
+
+    //提供对外的方法，检测库存量
+    public function checkOrderStock($orderID)
+    {
+        $oProducts = OrderProduct::where('order_id','=',$orderID)
+            ->select();
+        $this->oProducts = $oProducts;
+        $this->products = $this->getProductsByOrder($oProducts);
+        $status = $this->getOrderStatus();
+        return $status;
+
     }
 
     private function getOrderStatus()
