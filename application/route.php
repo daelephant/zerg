@@ -45,6 +45,9 @@ Route::get('api/:version/second','api/:version.Address/second');
 
 Route::post('api/:version/order','api/:version.Order/placeOrder');
 
+Route::get('api/:version/order/by_user', 'api/:version.Order/getSummaryByUser');
+Route::get('api/:version/order/paginate', 'api/:version.Order/getSummary');
+
 //Pay
 Route::post('api/:version/pay/pre_order', 'api/:version.Pay/getPreOrder');
 Route::post('api/:version/pay/notify', 'api/:version.Pay/receiveNotify');//微信服务器需要调用的接口

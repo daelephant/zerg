@@ -10,13 +10,16 @@ namespace app\api\controller\v1;
 
 
 use app\api\controller\BaseController;
+use app\api\service\Token;
 use app\api\validate\OrderPlace;
+use app\api\validate\PagingParameter;
 use app\lib\enum\ScopeEnum;
 use app\lib\exception\ForbiddenException;
 use app\lib\exception\TokenException;
 use think\Controller;
 use app\api\service\Token as TokenService;
 use app\api\service\Order as OrderService;
+use app\api\model\Order as OrderModel;
 
 class Order extends BaseController
 {
@@ -39,6 +42,26 @@ class Order extends BaseController
     //        throw new TokenException();
     //    }
     //}
+
+    public function getSummaryByUser($page=1,$size=15)
+    {
+        (new PagingParameter())->goCheck();
+        $uid = Token::getCurrentUid();
+        $pagingOrders = OrderModel::getSummaryByUser($uid,$page,$size);
+        //$pagingOrders是对象
+        if($pagingOrders->isEmpty()){
+            return [
+                'data' => [],
+                'current_page' =>$pagingOrders->getCurrentPage()
+            ];
+        }
+        $data = $pagingOrders->toArray();
+        return [
+            'data' => $data,
+            'current_page' =>$pagingOrders->getCurrentPage()
+        ];
+    }
+
     public function placeOrder(){
         (new OrderPlace())->goCheck();
         //要获取数组参数，专门写法
