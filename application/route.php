@@ -48,3 +48,5 @@ Route::post('api/:version/order','api/:version.Order/placeOrder');
 //Pay
 Route::post('api/:version/pay/pre_order', 'api/:version.Pay/getPreOrder');
 Route::post('api/:version/pay/notify', 'api/:version.Pay/receiveNotify');//微信服务器需要调用的接口
+Route::post('api/:version/pay/re_notify', 'api/:version.Pay/redirectNotify');
+Route::post('api/:version/pay/concurrency', 'api/:version.Pay/notifyConcurrency');
