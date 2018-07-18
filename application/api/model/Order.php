@@ -18,6 +18,28 @@ class Order extends BaseModel
     //自定义自动插入数据库的数据库时间列名称,TP5默认的是create_time,uodate_time,delete_time
     //protected $createTime = 'create_timestamp';
 
+    //读取器
+    public function getSnapItemsAttr($value)
+    {
+        if(empty($value))
+        {
+            return null;
+        }
+        //json字符串转json对象（数组）
+        //当该参数为 TRUE 时，将返回 array 而非 object 。
+        return json_decode($value);
+    }
+    public function getSnapAddressAttr($value)
+    {
+        if(empty($value))
+        {
+            return null;
+        }
+        //json字符串转json对象（数组）
+        //当该参数为 TRUE 时，将返回 array 而非 object 。
+        return json_decode($value);
+    }
+
     public static function getSummaryByUser($uid,$page=1,$size=15)
     {
         //Paginator:: 对象
