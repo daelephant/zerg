@@ -91,4 +91,28 @@ class Token
             throw new TokenException();
         }
     }
+
+    public static function isValidOperate($checkedUID)
+    {
+        if(!$checkedUID){
+            throw new Exception('检查UID时必须传入一个被检查的UID');
+        }
+        $currentOperateUID = self::getCurrentUid();
+        if($currentOperateUID == $checkedUID){
+            return true;
+        }
+        return false;
+    }
+
+
+    public static function verifyToken($token)
+    {
+        $exist = Cache::get($token);
+        if($exist){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }

@@ -11,7 +11,9 @@ namespace app\api\controller\v1;
 
 use app\api\service\UserToken;
 use app\api\validate\TokenGet;
+use app\lib\exception\ParameterException;
 use think\Exception;
+use app\api\service\Token as TokenService;
 
 class Token
 {
@@ -27,15 +29,17 @@ class Token
         ];
     }
 
-    public static function isValidOperate($checkedUID)
+
+    public function verifyToken($token='')
     {
-        if(!$checkedUID){
-            throw new Exception('检查UID时必须传入一个被检查的UID');
+        if(!$token){
+            throw new ParameterException([
+                'token不允许为空'
+            ]);
         }
-        $currentOperateUID = self::getCurrentUid();
-        if($currentOperateUID == $checkedUID){
-            return true;
-        }
-        return false;
+        $valid = TokenService::verifyToken($token);
+        return [
+            'isValid' => $valid
+        ];
     }
 }
