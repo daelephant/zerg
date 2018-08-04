@@ -11,10 +11,12 @@ namespace app\api\controller\v1;
 
 use app\api\controller\BaseController;
 use app\api\service\Token;
+use app\api\validate\IDMustBePostiveInt;
 use app\api\validate\OrderPlace;
 use app\api\validate\PagingParameter;
 use app\lib\enum\ScopeEnum;
 use app\lib\exception\ForbiddenException;
+use app\lib\exception\OrderException;
 use app\lib\exception\TokenException;
 use think\Controller;
 use app\api\service\Token as TokenService;
@@ -24,7 +26,8 @@ use app\api\model\Order as OrderModel;
 class Order extends BaseController
 {
     protected $beforeActionList = [
-        'checkExclusiveScope' => ['only' => 'placeOrder']
+        'checkExclusiveScope' => ['only' => 'placeOrder'],
+        'checkPrimaryScope' => ['only' => 'getDetail, getSummaryByUser']
     ];
     //下面方法被抽象到baseController里面
     //protected function checkExclusiveScope(){
@@ -55,11 +58,23 @@ class Order extends BaseController
                 'current_page' =>$pagingOrders->getCurrentPage()
             ];
         }
-        $data = $pagingOrders->toArray();
+        $data = $pagingOrders->hidden(['snap_items','snap_address','prepay_id'])->toArray();
         return [
             'data' => $data,
             'current_page' =>$pagingOrders->getCurrentPage()
         ];
+    }
+
+    //订单详情接口
+    public function getDetail($id)
+    {
+        (new IDMustBePostiveInt())->goCheck();
+        $orderDetail = OrderModel::get($id);
+        if(!$orderDetail)
+        {
+            throw new OrderException();
+        }
+        return $orderDetail->hidden(['prepay_id']);
     }
 
     public function placeOrder(){

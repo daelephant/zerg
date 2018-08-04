@@ -46,6 +46,7 @@ Route::get('api/:version/address','api/:version.Address/getUserAddress');
 Route::get('api/:version/second','api/:version.Address/second');
 
 Route::post('api/:version/order','api/:version.Order/placeOrder');
+Route::post('api/:version/order/:id','api/:version.Order/getDetail',[],['id'=>'\d+']);
 
 Route::get('api/:version/order/by_user', 'api/:version.Order/getSummaryByUser');
 Route::get('api/:version/order/paginate', 'api/:version.Order/getSummary');
