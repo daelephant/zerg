@@ -36,20 +36,25 @@ Route::get('api/:version/product/:id','api/:version.Product/getOne',[],['id'=>'\
 //    Route::get('/:id','api/:version.Product/getOne',[],['id'=>'\d+']);
 //});
 
+//Token
 Route::get('api/:version/category/all','api/:version.Category/getAllCategories');
 Route::post('api/:version/token/user','api/:version.Token/getToken');
 Route::post('api/:version/token/verify','api/:version.Token/verifyToken');
+Route::post('api/:version/token/app','api/:version.Token/getAppToken');
 
+//address
 Route::post('api/:version/address','api/:version.Address/createOrUpdateAddress');
 Route::get('api/:version/address','api/:version.Address/getUserAddress');
 
 Route::get('api/:version/second','api/:version.Address/second');
 
+//order
 Route::post('api/:version/order','api/:version.Order/placeOrder');
 Route::post('api/:version/order/:id','api/:version.Order/getDetail',[],['id'=>'\d+']);
 
 Route::get('api/:version/order/by_user', 'api/:version.Order/getSummaryByUser');
 Route::get('api/:version/order/paginate', 'api/:version.Order/getSummary');
+Route::put('api/:version/order/delivery', 'api/:version.Order/delivery');
 
 //Pay
 Route::post('api/:version/pay/pre_order', 'api/:version.Pay/getPreOrder');

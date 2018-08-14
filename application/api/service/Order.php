@@ -113,6 +113,7 @@ class Order
         $status = [
             'pass' => true,
             'orderPrice' => 0,
+            'totalCount' => 0,
             'pStatusArray' => []
         ];
         foreach ($this->oProducts as $oProduct) {
